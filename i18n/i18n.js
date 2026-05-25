@@ -96,42 +96,18 @@ export async function setLanguage(lang) {
 }
 
 /**
- * Initialize i18n - load saved preference or detect browser language
+ * Initialize i18n - set language based on current page URL
  * @returns {Promise<string>} - The initialized language code
  */
 export async function initI18n() {
-    // Check saved preference
-    let savedLang = null;
-    try {
-        savedLang = localStorage.getItem('easyriscv-lang');
-    } catch (e) {
-        // localStorage not available
+    const path = window.location.pathname;
+    let lang = 'en';
+    if (path.endsWith('index-zh.html')) {
+        lang = 'zh-CN';
     }
 
-    if (savedLang && SUPPORTED_LANGUAGES.includes(savedLang)) {
-        await setLanguage(savedLang);
-        return savedLang;
-    }
-
-    // Detect browser language
-    const browserLang = navigator.language || navigator.userLanguage;
-    if (browserLang) {
-        // Check if browser language matches supported languages
-        if (SUPPORTED_LANGUAGES.includes(browserLang)) {
-            await setLanguage(browserLang);
-            return browserLang;
-        }
-        // Check for partial match (e.g., 'zh' matches 'zh-CN')
-        const partialMatch = SUPPORTED_LANGUAGES.find(l => l.startsWith(browserLang.split('-')[0]));
-        if (partialMatch) {
-            await setLanguage(partialMatch);
-            return partialMatch;
-        }
-    }
-
-    // Default to English
-    await setLanguage(DEFAULT_LANGUAGE);
-    return DEFAULT_LANGUAGE;
+    await setLanguage(lang);
+    return lang;
 }
 
 /**
