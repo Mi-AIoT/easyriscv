@@ -60,7 +60,8 @@ $-- SPDX-License-Identifier: CC0-1.0 OR 0BSD
     <header class="page-banner">
         $title$
         <div id="language-switcher">
-            <a id="lang-switch-link" href="#" onclick="switchLanguage(); return false;">中文</a>
+            <select id="lang-select" onchange="changeLanguage(this.value)">
+            </select>
         </div>
     </header>
 
@@ -74,9 +75,14 @@ $body$
 <script type="module">
 import { setLanguage, getCurrentLanguage, getSupportedLanguages } from './i18n/i18n.js';
 
-window.switchLanguage = async function() {
+const LANGUAGE_NAMES = {
+    'en': 'English',
+    'zh-CN': '中文'
+};
+
+window.changeLanguage = async function(nextLang) {
     const current = getCurrentLanguage();
-    const nextLang = current === 'zh-CN' ? 'en' : 'zh-CN';
+    if (nextLang === current) return;
 
     await setLanguage(nextLang);
 
@@ -102,10 +108,21 @@ window.switchLanguage = async function() {
     window.location.href = url.toString();
 };
 
-const current = getCurrentLanguage();
-const link = document.getElementById('lang-switch-link');
-if (link) {
-    link.textContent = current === 'zh-CN' ? 'English' : '中文';
+// Populate options dynamically
+const select = document.getElementById('lang-select');
+if (select) {
+    const current = getCurrentLanguage();
+    const langs = getSupportedLanguages();
+    select.innerHTML = '';
+    for (const lang of langs) {
+        const opt = document.createElement('option');
+        opt.value = lang;
+        opt.textContent = LANGUAGE_NAMES[lang] || lang;
+        if (lang === current) {
+            opt.selected = true;
+        }
+        select.appendChild(opt);
+    }
 }
 </script>
 </body>

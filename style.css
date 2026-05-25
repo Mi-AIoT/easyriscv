@@ -216,14 +216,17 @@ code {
     margin-top: 0.5em;
 }
 
-#language-switcher a {
+#language-switcher select {
+    background-color: var(--bg-body);
     color: var(--fg-body);
-    text-decoration: none;
     border: 1px solid var(--fg-body);
     padding: 0.2em 0.5em;
     border-radius: 3px;
+    font-family: inherit;
+    font-size: inherit;
+    cursor: pointer;
 }
 
-#language-switcher a:hover {
+#language-switcher select:hover {
     background-color: var(--bg-alt);
 }
