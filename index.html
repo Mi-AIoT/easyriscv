@@ -11,9 +11,14 @@
 
 <body>
 
-    <header class="page-banner">Easy RISC-V</header>
+    <header class="page-banner">
+        Easy RISC-V
+        <div id="language-switcher">
+            <a id="lang-switch-link" href="#" onclick="switchLanguage(); return false;">中文</a>
+        </div>
+    </header>
 
-    <p>(Last updated: 2026-03-31 07:21)</p>
+    <p>(Last updated: 2026-05-25 04:20)</p>
 
     <nav class="table-of-contents">
         <ul>
@@ -2933,4 +2938,43 @@ code</a></li>
 <li><a href="#term-word">word</a></li>
 <li><a href="#term-zero-extension">zero extension</a></li>
 </ul>
+<script type="module">
+import { setLanguage, getCurrentLanguage, getSupportedLanguages } from './i18n/i18n.js';
+
+window.switchLanguage = async function() {
+    const current = getCurrentLanguage();
+    const nextLang = current === 'zh-CN' ? 'en' : 'zh-CN';
+
+    await setLanguage(nextLang);
+
+    const url = new URL(window.location.href);
+    const path = url.pathname;
+
+    if (nextLang === 'zh-CN') {
+        if (path.endsWith('index.html')) {
+            url.pathname = path.replace('index.html', 'index-zh.html');
+        } else if (path.endsWith('/')) {
+            url.pathname = path + 'index-zh.html';
+        } else {
+            url.pathname = path.substring(0, path.lastIndexOf('/') + 1) + 'index-zh.html';
+        }
+    } else {
+        if (path.endsWith('index-zh.html')) {
+            url.pathname = path.replace('index-zh.html', 'index.html');
+        } else {
+            url.pathname = path.substring(0, path.lastIndexOf('/') + 1) + 'index.html';
+        }
+    }
+
+    window.location.href = url.toString();
+};
+
+document.addEventListener('DOMContentLoaded', async () => {
+    const current = getCurrentLanguage();
+    const link = document.getElementById('lang-switch-link');
+    if (link) {
+        link.textContent = current === 'zh-CN' ? 'English' : '中文';
+    }
+});
+</script>
 </body>

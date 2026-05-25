@@ -4,12 +4,24 @@ https://easyriscv.dram.page
 
 ## Build
 
-[Pandoc] is required. The build command is:
+[Pandoc] is required.
 
-[Pandoc]: https://pandoc.org/
+To build the English version:
 
 ```
 pandoc --toc --template=template.html --lua-filter=filter.lua --variable=date:"$(date --utc +"%F %R")" -o index.html index.md
+```
+
+To build the Chinese version:
+
+```
+pandoc --toc --template=template.html --lua-filter=filter.lua --variable=date:"$(date --utc +"%F %R")" -o index-zh.html index-zh.md
+```
+
+Or run the build script:
+
+```
+./build.sh
 ```
 
 ## License
@@ -20,6 +32,7 @@ The associated code in this repository is provided under, of your choosing, eith
 
 [CC0]: https://creativecommons.org/publicdomain/zero/1.0/
 [0bsd]: https://opensource.org/license/0bsd
+[Pandoc]: https://pandoc.org/
 
 ## Page move
 
