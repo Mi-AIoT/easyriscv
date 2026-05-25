@@ -1,0 +1,42 @@
+{
+  "buttons": {
+    "run": "运行",
+    "pause": "暂停",
+    "step": "单步",
+    "start": "启动",
+    "stop": "停止",
+    "dump": "导出",
+    "clear": "清空"
+  },
+  "labels": {
+    "pauseOnExc": "异常时暂停",
+    "printOnExc": "异常时打印"
+  },
+  "placeholder": {
+    "codeEditor": "    # 在此编写代码..."
+  },
+  "messages": {
+    "started": "[ 已启动 ]",
+    "stopped": "[ 已停止 ]",
+    "errorsAssembling": "[ 汇编错误 ]"
+  },
+  "exceptions": {
+    "header": "异常说明",
+    "0": "指令地址未对齐",
+    "1": "指令访问错误",
+    "2": "非法指令",
+    "3": "断点",
+    "5": "读取访问错误",
+    "7": "写入访问错误",
+    "8": "用户模式环境调用",
+    "11": "机器模式环境调用"
+  },
+  "privilege": {
+    "user": "用户",
+    "machine": "机器"
+  },
+  "language": {
+    "switchTo": "English",
+    "current": "中文"
+  }
+}
