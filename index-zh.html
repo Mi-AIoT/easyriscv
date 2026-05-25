@@ -63,7 +63,7 @@
         </div>
     </header>
 
-    <p>(Last updated: 2026-05-25 06:01)</p>
+    <p>(Last updated: 2026-05-25 06:02)</p>
 
     <nav class="table-of-contents">
         <ul>
@@ -148,6 +148,8 @@
         <li><a href="#伪代码参考"
         id="toc-伪代码参考">伪代码参考</a></li>
         </ul></li>
+        <li><a href="#简化与遗漏"
+        id="toc-简化与遗漏">简化与遗漏</a></li>
         </ul>
     </nav>
 
@@ -2406,6 +2408,29 @@ void putchar(char c) {
 void exit() {
     ecall(a7 = 2);
 }</code></pre>
+<h1 id="简化与遗漏"><a href="#简化与遗漏" class="anchor-link"
+aria-hidden="true"></a>简化与遗漏</h1>
+<p>尽管本教程内容很长，但仍然做了一些简化。以下是与现实世界中“真实”的
+RISC-V 架构以及“真实”的 RISC-V
+汇编代码相比，最显著的一些简化和遗漏：</p>
+<ul>
+<li>这里的汇编语法与 LLVM 汇编器和 GNU Binutils 用于 RISC-V
+的语法类似。但是，它们并不完全相同。</li>
+<li>伪指令和 CSR（控制与状态寄存器）的数量远比我所描述的要多。</li>
+<li><code>li</code> 伪指令应该支持更广泛的常数范围。</li>
+<li><code>mstatus</code> 寄存器的复杂程度远超我的描述。</li>
+<li><code>%hi</code>、<code>%lo</code>、<code>%pcrel_hi</code>、<code>%pcrel_lo</code>
+等操作也比我所描述的更为复杂。</li>
+</ul>
+<p>此外，还有一些在 RISC-V
+世界中非常重要或随处可见的主题，但我选择不予讨论：</p>
+<ul>
+<li>64 位架构</li>
+<li>压缩指令（Compressed instructions）</li>
+<li>其他特权架构和操作系统主题：中断（Interrupts）、内存保护（Memory
+protection）、虚拟内存（Virtual memory）等</li>
+</ul>
+<p>不过，我所传授的知识应该已经足够让你能够开始自己摸索，或者阅读更多的进阶材料。</p>
 <!-- 以下内容暂未翻译，在后续计划中逐步补全 -->
 <script type="module">
 import { setLanguage, getCurrentLanguage, getSupportedLanguages } from './i18n/i18n.js';
