@@ -208,3 +208,22 @@ code {
         grid-row: 4;
     }
 }
+
+#language-switcher {
+    float: right;
+    font-size: 0.5em;
+    font-weight: normal;
+    margin-top: 0.5em;
+}
+
+#language-switcher a {
+    color: var(--fg-body);
+    text-decoration: none;
+    border: 1px solid var(--fg-body);
+    padding: 0.2em 0.5em;
+    border-radius: 3px;
+}
+
+#language-switcher a:hover {
+    background-color: var(--bg-alt);
+}
