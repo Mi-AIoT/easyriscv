@@ -2186,4 +2186,72 @@ void exit() {
 
 不过，我所传授的知识应该已经足够让你能够开始自己摸索，或者阅读更多的进阶材料。
 
-<!-- 以下内容暂未翻译，在后续计划中逐步补全 -->
+# 推荐阅读
+
+如果你希望进一步深入 RISC-V 底层开发，我个人推荐以下参考资料和教程：
+
+- RISC-V 指令集手册（RISC-V Instruction Set Manual）<https://github.com/riscv/riscv-isa-manual>
+- RISC-V 汇编程序员手册（RISC-V Assembly Programmer's Manual）<https://github.com/riscv-non-isa/riscv-asm-manual>
+- RISC-V 调用规范（RISC-V Calling Conventions）<https://github.com/riscv-non-isa/riscv-elf-psabi-doc/blob/master/riscv-cc.adoc>
+- 1000 行写操作系统（Operating System in 1,000 Lines）<https://operating-system-in-1000-lines.vercel.app/zh/>
+
+我在编写本教程时参考的其他有用资源：
+
+- Linux 源码中的 `arch/riscv/kernel/entry.S` <https://elixir.bootlin.com/linux/latest/source/arch/riscv/kernel/entry.S>
+
+# 致谢
+
+感谢以下各位在 UI 设计以及内容方面提供的帮助和建议：
+
+- Aria Desires <https://faultlore.com>
+- Riven Skaye <https://skaye.blog>
+- robotreader <https://sdubinsky.com>
+- Bruce Hoult <http://hoult.org/bruce>
+- soxfox <https://soxfox.me>
+- cbm-vic-20，见 [Hacker News](https://news.ycombinator.com/item?id=45727405)
+- Clo91eaf <https://clo91eaf.github.io>
+- Tom Hebb <https://tchebb.me>
+
+同时也感谢你陪伴我度过这段旅程。如果你有任何建议、吐槽，或者只是想分享一些想法，欢迎访问：
+<https://github.com/dramforever/easyriscv>
+
+# 许可协议
+
+本教程基于 [CC0] 许可协议提供。在法律允许的最大范围内，本教程已贡献至公有领域（public domain）。
+
+本仓库中的相关代码，你可以任选使用 CC0 许可协议或 [0-clause "BSD" (0BSD)][0bsd] 许可协议。
+
+[CC0]: https://creativecommons.org/publicdomain/zero/1.0/
+[0bsd]: https://opensource.org/license/0bsd
+[the repository]: https://github.com/dramforever/easyriscv
+
+# 索引
+
+## 指令
+
+::: {index_of=insn}
+:::
+
+## 寄存器与 CSR
+
+::: {index_of=reg}
+:::
+
+::: {index_of=regalias}
+:::
+
+::: {index_of=csr}
+:::
+
+## 特殊汇编语法
+
+::: {index_of=dir}
+:::
+
+::: {index_of=rel}
+:::
+
+## 其他术语
+
+::: {index_of=term}
+:::
