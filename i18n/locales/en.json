@@ -1,0 +1,42 @@
+{
+  "buttons": {
+    "run": "Run",
+    "pause": "Pause",
+    "step": "Step",
+    "start": "Start",
+    "stop": "Stop",
+    "dump": "Dump",
+    "clear": "Clear"
+  },
+  "labels": {
+    "pauseOnExc": "Pause on exc.",
+    "printOnExc": "Print on exc."
+  },
+  "placeholder": {
+    "codeEditor": "    # code here..."
+  },
+  "messages": {
+    "started": "[ Started ]",
+    "stopped": "[ Stopped ]",
+    "errorsAssembling": "[ Errors while assembling ]"
+  },
+  "exceptions": {
+    "header": "Exception",
+    "0": "Instruction address misaligned",
+    "1": "Instruction access fault",
+    "2": "Illegal instruction",
+    "3": "Breakpoint",
+    "5": "Load access fault",
+    "7": "Store/AMO access fault",
+    "8": "Environment call from User mode",
+    "11": "Environment call from Machine mode"
+  },
+  "privilege": {
+    "user": "User",
+    "machine": "Machine"
+  },
+  "language": {
+    "switchTo": "中文",
+    "current": "English"
+  }
+}
