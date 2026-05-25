@@ -64,7 +64,7 @@
         </div>
     </header>
 
-    <p>(Last updated: 2026-05-25 06:33)</p>
+    <p>(Last updated: 2026-05-25 06:49)</p>
 
     <nav class="table-of-contents">
         <ul>
@@ -348,25 +348,22 @@ id="insn-sub"><em><code>sub</code></em></span> 指令从 <code>rs1</code>
 位可用于编码立即数。你可以在“导出”中查看指令中编码的十六进制值。本文不会对指令编码进行更深入的讨论。</p>
 <pre><code>{ 0x40000000: 12300513 } addi x10, x0, 0x123
 { 0x40000004: 55500593 } addi x11, x0, 0x555</code></pre>
-<p>Even instructions as simple as addition and subtraction have other
-interesting uses. We have already used <code>addi x10, x0, 0x123</code>
-to put <code>0x123</code> in the register <code>x10</code>. When writing
-in assembly, we can use a little shortcut called <span
-id="term-pseudoinstructions"><em>pseudoinstructions</em></span>. The
-<span id="insn-li"><em><code>li</code></em></span> (“load immediate”)
-pseudoinstruction is a convenient way to put a small value in a
-register. It expands to <code>addi rd, x0, imm</code> when
-<code>imm</code> is in the range <code>[-2048, 2047]</code>.</p>
+<p>即使是像加法和减法这样简单的指令，也有其他有趣的用途。我们已经使用过
+<code>addi x10, x0, 0x123</code> 将 <code>0x123</code> 放入寄存器
+<code>x10</code>。在编写汇编代码时，我们可以使用一种叫做<span
+id="term-伪指令"><em>伪指令</em></span>的小捷径。<span
+id="insn-li"><em><code>li</code></em></span>（“加载立即数”，load
+immediate）伪指令是向寄存器中放入较小数值的一种便利方式。当
+<code>imm</code> 在 <code>[-2048, 2047]</code> 范围内时，它会被展开为
+<code>addi rd, x0, imm</code>。</p>
 <pre><code>li rd, imm</code></pre>
-<p>When <code>imm</code> is <code>0</code>, <code>addi</code> copies the
-value without changing it because adding zero is the same as doing
-nothing. The <span id="insn-mv"><em><code>mv</code></em></span> (“move”)
-pseudoinstruction copies the value from <code>rs1</code> to
-<code>rd</code>. It expands to <code>addi rd, rs1, 0</code>.</p>
+<p>当 <code>imm</code> 为 <code>0</code> 时，<code>addi</code>
+会在不改变值的情况下复制它，因为加上零等同于什么都不做。<span
+id="insn-mv"><em><code>mv</code></em></span>（“移动”，move）伪指令用于将值从
+<code>rs1</code> 复制到 <code>rd</code>。它会被展开为
+<code>addi rd, rs1, 0</code>。</p>
 <pre><code>mv rd, rs1</code></pre>
-<p>Using the pseudoinstruction is exactly equivalent to using the “real”
-instruction. You can see in the dump that the two are assembled exactly
-the same way.</p>
+<p>使用伪指令与使用“真实”指令是完全等效的。你可以在导出中看到两者的汇编方式完全相同。</p>
 <div class="emulator-disabled">
     addi x10, x0, 0x123
     li x10, 0x123
@@ -1361,9 +1358,9 @@ id="term-栈"><em>栈</em></span>（stack）。</p>
 16，我们分配了空间：</p>
 <pre><code>foo:
     addi sp, sp, -16</code></pre>
-<p>Now, in addition to all of the non call-saved registers, we have 16
-bytes of scratch space at <code>sp</code> through <code>sp + 15</code>.
-We can backup the value of <code>ra</code> here</p>
+<p>现在，除了所有非被调用者保存的寄存器外，我们在 <code>sp</code> 到
+<code>sp + 15</code> 处还有 16 字节的暂存空间。我们可以在这里备份
+<code>ra</code> 的值：</p>
 <pre><code>    ...
     sw ra, 0(sp)</code></pre>
 <p>然后我们只需调用 <code>bar</code> 两次，这会覆盖
@@ -2615,12 +2612,12 @@ aria-hidden="true"></a>其他术语</h2>
 <li><a href="#term-pc"><code>pc</code></a></li>
 <li><a href="#term-pc-相对寻址">pc 相对寻址</a></li>
 <li><a href="#term-pic">PIC</a></li>
-<li><a href="#term-pseudoinstructions">pseudoinstructions</a></li>
 <li><a href="#term-rd"><code>rd</code></a></li>
 <li><a href="#term-rs1"><code>rs1</code></a></li>
 <li><a href="#term-rs2"><code>rs2</code></a></li>
 <li><a href="#term-u-mode">U-mode</a></li>
 <li><a href="#term-中断">中断</a></li>
+<li><a href="#term-伪指令">伪指令</a></li>
 <li><a href="#term-位置无关代码">位置无关代码</a></li>
 <li><a href="#term-内存映射-i/o">内存映射 I/O</a></li>
 <li><a href="#term-分支">分支</a></li>

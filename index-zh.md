@@ -206,28 +206,19 @@ sub rd, rs1, rs2
 { 0x40000004: 55500593 } addi x11, x0, 0x555
 ```
 
-Even instructions as simple as addition and subtraction have other interesting
-uses. We have already used `addi x10, x0, 0x123` to put `0x123` in the register
-`x10`. When writing in assembly, we can use a little shortcut called
-[pseudoinstructions]{x=term}. The [`li`]{x=insn} ("load immediate")
-pseudoinstruction is a convenient way to put a small value in a register. It
-expands to `addi rd, x0, imm` when `imm` is in the range `[-2048, 2047]`.
+即使是像加法和减法这样简单的指令，也有其他有趣的用途。我们已经使用过 `addi x10, x0, 0x123` 将 `0x123` 放入寄存器 `x10`。在编写汇编代码时，我们可以使用一种叫做[伪指令]{x=term}的小捷径。[`li`]{x=insn}（“加载立即数”，load immediate）伪指令是向寄存器中放入较小数值的一种便利方式。当 `imm` 在 `[-2048, 2047]` 范围内时，它会被展开为 `addi rd, x0, imm`。
 
 ```
 li rd, imm
 ```
 
-When `imm` is `0`, `addi` copies the value without changing it because adding
-zero is the same as doing nothing. The [`mv`]{x=insn} ("move") pseudoinstruction
-copies the value from `rs1` to `rd`. It expands to `addi rd, rs1, 0`.
+当 `imm` 为 `0` 时，`addi` 会在不改变值的情况下复制它，因为加上零等同于什么都不做。[`mv`]{x=insn}（“移动”，move）伪指令用于将值从 `rs1` 复制到 `rd`。它会被展开为 `addi rd, rs1, 0`。
 
 ```
 mv rd, rs1
 ```
 
-Using the pseudoinstruction is exactly equivalent to using the "real"
-instruction. You can see in the dump that the two are assembled exactly the same
-way.
+使用伪指令与使用“真实”指令是完全等效的。你可以在导出中看到两者的汇编方式完全相同。
 
 ```emulator
     addi x10, x0, 0x123
@@ -1142,8 +1133,7 @@ foo:
     addi sp, sp, -16
 ```
 
-Now, in addition to all of the non call-saved registers, we have 16 bytes of
-scratch space at `sp` through `sp + 15`. We can backup the value of `ra` here
+现在，除了所有非被调用者保存的寄存器外，我们在 `sp` 到 `sp + 15` 处还有 16 字节的暂存空间。我们可以在这里备份 `ra` 的值：
 
 ```
     ...
