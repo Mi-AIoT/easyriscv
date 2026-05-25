@@ -2074,4 +2074,98 @@ msg_hello:
     .byte 0x48, 0x65, 0x6c, 0x6c, 0x6f, 0x20, 0x77, 0x6f, 0x72, 0x6c, 0x64, 0x21, 0x0a, 0x00
 ```
 
+## 伪代码参考
+
+作为参考，这里有一些用类 C 语言编写的操作系统代码。
+
+```
+void trap_main(struct regs *regs) {
+    unsigned long cause = csr_read(mcause);
+    if (cause != 8)
+        do_bad_exception(regs, cause);
+
+    // 用来自 ecall 的参数调用 do_syscall
+    unsigned long ret = do_syscall(regs->a0, ..., regs->a7);
+    regs->a0 = ret;
+
+    // 将用户的 pc 增加 4，跳过 ecall 指令
+    regs->pc += 4;
+}
+
+unsigned long do_syscall(
+    unsigned long a0,
+    ...,
+    unsigned long a7
+) {
+    if (a7 == 1)
+        sys_putchar(a0);
+    else if (a7 == 8)
+        sys_exit();
+    else
+        return -1;
+}
+
+unsigned long sys_putchar(char a) {
+    kputchar(a);
+    return 0;
+}
+
+[[noreturn]]
+unsigned long sys_exit(char a) {
+    ebreak();
+}
+
+[[noreturn]]
+void do_bad_exception(struct regs *regs, unsigned long cause) {
+    kputs("Exception 0x");
+    kputchar(hex_chars[cause]);
+    kputchar('\n');
+    ebreak();
+}
+
+[[noreturn]]
+void fatal() {
+    kputs("Fatal exception\n");
+    ebreak();
+}
+
+void kputs(const char *str) {
+    while (*str) {
+        u32 val = (u32)*str;
+        writel(0x10000000, val); // MMIO 写入
+        str ++;
+    }
+}
+
+void kputchar(char c) {
+    u32 val = (u32)c;
+    writel(0x10000000, val); // MMIO 写入
+}
+```
+
+这里同样是类 C 语言编写的用户代码：
+
+```
+[[noreturn]]
+void user_entry() {
+    puts(...);
+    exit();
+}
+
+void puts(const char *str) {
+    while (*str) {
+        putchar(*str);
+        str ++;
+    }
+}
+
+void putchar(char c) {
+    ecall(a0 = c, a7 = 1);
+}
+
+void exit() {
+    ecall(a7 = 2);
+}
+```
+
 <!-- 以下内容暂未翻译，在后续计划中逐步补全 -->
