@@ -6,6 +6,11 @@ const DEFAULT_LANGUAGE = 'en';
 
 // Current language state
 let currentLanguage = DEFAULT_LANGUAGE;
+if (typeof window !== 'undefined' && window.location && window.location.pathname) {
+    if (window.location.pathname.endsWith('index-zh.html')) {
+        currentLanguage = 'zh-CN';
+    }
+}
 
 // Translation dictionaries cache
 const translations = {};
