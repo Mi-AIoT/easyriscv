@@ -2,6 +2,7 @@
 
 import { RiscvState, RiscvMemory } from './emulator.js';
 import { assemble_riscv } from './assembler.js';
+import { t, initI18n } from './i18n/i18n.js';
 
 class EmulatorMemory extends RiscvMemory {
     constructor(serialWrite) {
@@ -52,7 +53,7 @@ function convertEmulator(el) {
     const edit = document.createElement('textarea');
     edit.autocomplete = false;
     edit.autocapitalize = false;
-    edit.placeholder = '    # code here...';
+    edit.placeholder = t('placeholder.codeEditor', '    # code here...');
 
     edit.value = text;
     edit.classList.add('emulator-edit');
@@ -74,15 +75,15 @@ function convertEmulator(el) {
     el.append(edit, regsDispWrapper, controls, output);
 
     const runBtn = document.createElement('button');
-    runBtn.append('Run');
+    runBtn.append(t('buttons.run', 'Run'));
     const stepBtn = document.createElement('button');
-    stepBtn.append('Step');
+    stepBtn.append(t('buttons.step', 'Step'));
     const startStopBtn = document.createElement('button');
-    startStopBtn.append('Start');
+    startStopBtn.append(t('buttons.start', 'Start'));
     const dumpBtn = document.createElement('button');
-    dumpBtn.append('Dump');
+    dumpBtn.append(t('buttons.dump', 'Dump'));
     const clearBtn = document.createElement('button');
-    clearBtn.append('Clear');
+    clearBtn.append(t('buttons.clear', 'Clear'));
 
     const pauseOnExc = document.createElement('div');
     pauseOnExc.classList.add('emulator-checkbox');
@@ -91,7 +92,7 @@ function convertEmulator(el) {
     pauseOnExcCheck.checked = true;
     pauseOnExcCheck.id = `pause-on-exc-${counter}`;
     const pauseOnExcLabel = document.createElement('label');
-    pauseOnExcLabel.append('Pause on exc.');
+    pauseOnExcLabel.append(t('labels.pauseOnExc', 'Pause on exc.'));
     pauseOnExcLabel.htmlFor = `pause-on-exc-${counter}`;
     counter ++;
     pauseOnExc.append(pauseOnExcCheck, pauseOnExcLabel)
@@ -103,7 +104,7 @@ function convertEmulator(el) {
     printOnExcCheck.checked = true;
     printOnExcCheck.id = `print-on-exc-${counter}`;
     const printOnExcLabel = document.createElement('label');
-    printOnExcLabel.append('Print on exc.');
+    printOnExcLabel.append(t('labels.printOnExc', 'Print on exc.'));
     printOnExcLabel.htmlFor = `print-on-exc-${counter}`;
     counter ++;
     printOnExc.append(printOnExcCheck, printOnExcLabel)
@@ -124,10 +125,10 @@ function convertEmulator(el) {
 
         edit.disabled = started;
         runBtn.disabled = ! started;
-        runBtn.textContent = running ? 'Pause' : 'Run';
+        runBtn.textContent = running ? t('buttons.pause', 'Pause') : t('buttons.run', 'Run');
         stepBtn.disabled = running || ! started;
         dumpBtn.disabled = ! started;
-        startStopBtn.textContent = started ? 'Stop' : 'Start';
+        startStopBtn.textContent = started ? t('buttons.stop', 'Stop') : t('buttons.start', 'Start');
         startStopBtn.disabled = running && started;
     }
 
@@ -156,7 +157,7 @@ function convertEmulator(el) {
         const regFmt = (i) => makeField(fmt(newState.regs[i]), oldState !== null && newState.regs[i] !== oldState.regs[i]);
         const field = (n) => makeField(`${newState[n]}`, oldState !== null && newState[n] !== oldState[n]);
         const fieldFmt = (n) => makeField(fmt(newState[n]), oldState !== null && newState[n] !== oldState[n]);
-        const mkPriv = (v) => new Map([[0, 'User'], [3, 'Machine']]).get(v) ?? '???';
+        const mkPriv = (v) => new Map([[0, t('privilege.user', 'User')], [3, t('privilege.machine', 'Machine')]]).get(v) ?? '???';
         const fieldPriv = (n) => makeField(`${newState[n]} (${mkPriv(newState[n])})`, oldState !== null && newState[n] !== oldState[n]);
 
         const mstatusField = makeField(fmt(newState.mpp << 11), oldState !== null && newState.mpp !== oldState.mpp);
@@ -199,7 +200,7 @@ function convertEmulator(el) {
                 writeOutput(decoder.decode(buf, { stream: true }))
             });
             (new Uint8Array(mem.memory)).set(new Uint8Array(res.data));
-            writeOutput('[ Started ]\n')
+            writeOutput(t('messages.started', '[ Started ]') + '\n')
             riscv = new RiscvState(mem);
             riscv.pc = res.symbols.get('_start') ?? 0x40000000;
             riscv.regs[2 /* sp */] = 0x40000000 + mem.memory.byteLength;
@@ -213,7 +214,7 @@ function convertEmulator(el) {
             for (const { lineno, message } of res.errors) {
                 parts.push(`${message}\n${lineno.toString().padStart(4, ' ')}| ${lines[lineno - 1]}`)
             }
-            writeOutput('\n' + parts.join('\n\n') + '\n[ Errors while assembling ]\n');
+            writeOutput('\n' + parts.join('\n\n') + '\n' + t('messages.errorsAssembling', '[ Errors while assembling ]') + '\n');
         }
     }
 
@@ -224,7 +225,7 @@ function convertEmulator(el) {
         oldState = null;
         running = false;
         started = false;
-        writeOutput('[ Stopped ]\n')
+        writeOutput(t('messages.stopped', '[ Stopped ]') + '\n')
         updateUI();
         edit.focus();
     }
@@ -246,8 +247,13 @@ function convertEmulator(el) {
         [ 0x0b, "Environment call from Machine mode" ]
     ]);
 
+    const getExceptionName = (cause) => {
+        const key = String(cause);
+        return t(`exceptions.${key}`, CAUSES.get(cause) || '???');
+    };
+
     const fmtException = (res) =>
-        `[ Exception: ${CAUSES.get(res.cause) || "???"} (${res.cause}) | tval = ${fmt(res.tval)}, epc = ${fmt(res.epc)} ]\n`;
+        `[ ${t('exceptions.header', 'Exception')}: ${getExceptionName(res.cause)} (${res.cause}) | tval = ${fmt(res.tval)}, epc = ${fmt(res.epc)} ]\n`;
 
     function step() {
         oldState = riscv.dump_state();
@@ -362,10 +368,20 @@ function convertEmulator(el) {
 
 }
 
-const emulators = document.querySelectorAll('.emulator-disabled');
+async function initEasyRiscv() {
+    await initI18n();
 
-if (!location.search.match(/[?&]no-emulator($|&)/)) {
-    for (const e of emulators) {
-        convertEmulator(e);
+    const emulators = document.querySelectorAll('.emulator-disabled');
+
+    if (!location.search.match(/[?&]no-emulator($|&)/)) {
+        for (const e of emulators) {
+            convertEmulator(e);
+        }
     }
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initEasyRiscv);
+} else {
+    initEasyRiscv();
 }
